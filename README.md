@@ -11,7 +11,7 @@
    <img src="https://github.com/user-attachments/assets/cf6f1692-e9ba-410f-93ed-ad8a75939c4d" alt="tongue" width="143.4" height="147"> <!-- 735x717 -->
 </p>
 
-![nishita's GitHub stats](https://github-readme-stats.vercel.app/api?username=disgruntled-penguin&show_icons=true&theme=radical)
+<!-- ![nishita's GitHub stats](https://github-readme-stats.vercel.app/api?username=disgruntled-penguin&show_icons=true&theme=radical)
 
 <!-- ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=disgruntled-penguin&theme=tokyonight)
 
