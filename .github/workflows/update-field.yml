@@ -1,0 +1,33 @@
+# .github/workflows/update-starfield.yml
+name: Generate Animated Starfield
+
+on:
+  # Run the job on a schedule 
+  schedule:
+    - cron: '0 * * * *'
+  # Allow running the job manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Generate
+        run: node accretion-disk.js
+
+      - name: Commit and push
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add starfield.svg
+          git commit -m "Generate starfield" || exit 0
+          git push
