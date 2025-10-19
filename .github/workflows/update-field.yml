@@ -1,4 +1,4 @@
-# .github/workflows/update-starfield.yml
+# .github/workflows/update-field.yml
 name: Generate Animated Starfield
 
 on:
@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Check out repo
