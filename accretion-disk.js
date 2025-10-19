@@ -5,29 +5,31 @@ const SVG_HEIGHT = 500;
 const STAR_COUNT = 300;
 const FONT_SIZE = 10;
 
-//pseudo random
 function getStarChar(r) {
-    if (r > 0.9) return '*'; 
+    if (r > 0.9) return '*';
     if (r > 0.6) return '+';
     if (r > 0.3) return '.';
-    return ''; 
+    return '';
 }
 
 function generateSVG() {
     const time = Date.now();
-    const scrollSpeed = 0.005; 
+    const scrollSpeed = 0.000003; 
 
     let starTags = '';
     for (let i = 0; i < STAR_COUNT; i++) {
+        // psuedo random
         const pseudoRandom = (Math.sin(i * 0.1) + 1) / 2;
 
         const initialX = (i * 137.5 + pseudoRandom * 50) % SVG_WIDTH;
-        const initialY = (i * 97.3 * Math.sin(i * 0.5)) % SVG_HEIGHT;
-        const char = getStarChar(pseudoRandom); 
+        
+        let yCalc = (i * 97.3 * Math.sin(i * 0.5));
+        const initialY = ((yCalc % SVG_HEIGHT) + SVG_HEIGHT) % SVG_HEIGHT;
+
+        const char = getStarChar(pseudoRandom);
         
         let currentX = (initialX - time * scrollSpeed);
         currentX = ((currentX % SVG_WIDTH) + SVG_WIDTH) % SVG_WIDTH;
-
 
         if (char) {
             starTags += `<text x="${currentX.toFixed(2)}" y="${initialY.toFixed(2)}">${char}</text>\n`;
