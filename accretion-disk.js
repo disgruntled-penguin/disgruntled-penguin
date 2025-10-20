@@ -13,8 +13,12 @@ function getStarChar(r) {
 }
 
 function generateSVG() {
-    const time = Date.now();
-    const scrollSpeed = 0.000003; 
+    const now = new Date();
+    const hours = now.getUTCHours();
+    const minutes = now.getUTCMinutes();
+    const progressOfDay = (hours * 60 + minutes) / (24 * 60); 
+    const scrollCyclesPerDay = 4;
+    const offset = progressOfDay * SVG_WIDTH * scrollCyclesPerDay;
 
     let starTags = '';
     for (let i = 0; i < STAR_COUNT; i++) {
@@ -28,7 +32,7 @@ function generateSVG() {
 
         const char = getStarChar(pseudoRandom);
         
-        let currentX = (initialX - time * scrollSpeed);
+        let currentX = (initialX - offset);
         currentX = ((currentX % SVG_WIDTH) + SVG_WIDTH) % SVG_WIDTH;
 
         if (char) {
@@ -47,7 +51,6 @@ function generateSVG() {
 
 
     fs.writeFileSync('starfield.svg', svgContent);
-    console.log('stars are plotted and are being warped');
 }
 
 generateSVG();
