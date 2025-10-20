@@ -5,6 +5,16 @@ const SVG_HEIGHT = 500;
 const STAR_COUNT = 300;
 const FONT_SIZE = 10;
 
+
+function mulberry32(a) {
+    return function() {
+      var t = a += 0x6D2B79F5;
+      t = Math.imul(t ^ t >>> 15, t | 1);
+      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+}
+
 function getStarChar(r) {
     if (r > 0.9) return '*';
     if (r > 0.6) return '+';
@@ -13,36 +23,28 @@ function getStarChar(r) {
 }
 
 function generateSVG() {
+    // psuedo random
     const seed = Date.now();
-    const timestamp = new Date().toUTCString();
+    const rand = mulberry32(seed);
 
     let starTags = '';
     for (let i = 0; i < STAR_COUNT; i++) {
-        // psuedo random
-        const pseudoRandomSeed = seed + i;
-        const pseudoRandomX = (Math.sin(pseudoRandomSeed * 0.0001) + 1) / 2;
-        const pseudoRandomY = (Math.cos(pseudoRandomSeed * 0.0001) + 1) / 2;
-        const pseudoRandomChar = (Math.sin(pseudoRandomSeed * 0.001) + 1) / 2;
-
-        const x = pseudoRandomX * SVG_WIDTH;
-        const y = pseudoRandomY * SVG_HEIGHT;
-        const char = getStarChar(pseudoRandomChar);
+        const x = rand() * SVG_WIDTH;
+        const y = rand() * SVG_HEIGHT;
+        const char = getStarChar(rand());
         
         if (char) {
             starTags += `<text x="${x.toFixed(2)}" y="${y.toFixed(2)}">${char}</text>\n`;
         }
     }
 
-
     const svgContent = `
-<svg viewBox="0 0 ${SVG_WIDTH} ${SVG_HEIGHT}" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="background-color: #0a0a14; font-family: 'Courier New', Courier, monospace;">
+<svg viewBox="0 0 ${SVG_WIDTH} ${SVG_HEIGHT}" xmlns="http://www.w.org/2000/svg" width="100%" height="100%" style="background-color: #0a0a14; font-family: 'Courier New', Courier, monospace;">
     <style>
         text { fill: #aaa; font-size: ${FONT_SIZE}px; text-anchor: middle; dominant-baseline: middle; }
     </style>
-    <text x="10" y="20" text-anchor="start" font-size="12" fill="#333">${timestamp}</text>
     ${starTags}
 </svg>`;
-
 
     fs.writeFileSync('starfield.svg', svgContent);
 }
