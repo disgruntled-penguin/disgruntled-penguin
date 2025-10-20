@@ -16,7 +16,13 @@ function generateSVG() {
     const now = new Date();
     const hours = now.getUTCHours();
     const minutes = now.getUTCMinutes();
-    const progressOfDay = (hours * 60 + minutes) / (24 * 60); 
+    const seconds = now.getUTCSeconds();
+    const milliseconds = now.getUTCMilliseconds();
+
+    const totalSecondsInDay = 24 * 60 * 60;
+    const currentSeconds = (hours * 3600) + (minutes * 60) + seconds + (milliseconds / 1000);
+    const progressOfDay = currentSeconds / totalSecondsInDay;
+    
     const scrollCyclesPerDay = 4;
     const offset = progressOfDay * SVG_WIDTH * scrollCyclesPerDay;
 
